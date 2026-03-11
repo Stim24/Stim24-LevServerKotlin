@@ -1,0 +1,263 @@
+openapi: 3.0.3
+info:
+  title: Lev Game API
+  description: REST API для управления играми
+  version: 1.0
+
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+
+paths:
+  /v1/game/getGames:
+    get:
+      summary: Список игр
+      description: Возвращает список активных игр со статусом NEW
+      operationId: getGames
+      responses:
+        '200':
+          description: Список игр
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGamesResponse'
+
+  /v1/game/newgame:
+    post:
+      summary: Создать игру
+      operationId: newgame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewGameRequest'
+      responses:
+        '200':
+          description: Игра создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewGameResponse'
+
+  /v1/game/addPlayer:
+    post:
+      summary: Добавить игрока в игру
+      operationId: addPlayer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPlayerRequest'
+      responses:
+        '200':
+          description: Игрок добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddPlayerResponse'
+        '404':
+          description: Игра не найдена
+
+  /v1/game/GetPlayers:
+    post:
+      summary: Список игроков в игре
+      operationId: getPlayers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPlayersRequest'
+      responses:
+        '200':
+          description: Список игроков
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPlayersResponse'
+        '404':
+          description: Игра не найдена
+
+  /v1/game/sendPole:
+    post:
+      summary: Отправить расстановку
+      operationId: sendPole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendPoleRequest'
+      responses:
+        '200':
+          description: Расстановка сохранена
+        '404':
+          description: Игра не найдена
+
+  /v1/game/getPole:
+    post:
+      summary: Получить расстановку
+      operationId: getPole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPoleRequest'
+      responses:
+        '200':
+          description: Расстановка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPoleResponse'
+        '404':
+          description: Игра или расстановка не найдены
+
+  /v1/game/gameover:
+    post:
+      summary: Завершить игру
+      operationId: gameover
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameOverRequest'
+      responses:
+        '200':
+          description: Игра завершена
+        '404':
+          description: Игра не найдена
+
+components:
+  schemas:
+    GameListItem:
+      type: object
+      properties:
+        gameId:
+          type: integer
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp (мс)
+
+    GetGamesResponse:
+      type: object
+      properties:
+        games:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameListItem'
+
+    NewGameRequest:
+      type: object
+      required: [playerId, playerName]
+      properties:
+        playerId:
+          type: integer
+        playerName:
+          type: string
+
+    NewGameResponse:
+      type: object
+      properties:
+        gameId:
+          type: integer
+
+    AddPlayerRequest:
+      type: object
+      required: [playerId, playerName, gameId]
+      properties:
+        playerId:
+          type: integer
+        playerName:
+          type: string
+        gameId:
+          type: integer
+
+    AddPlayerResponse:
+      type: object
+      properties:
+        gameId:
+          type: integer
+
+    GetPlayersRequest:
+      type: object
+      required: [gameId]
+      properties:
+        gameId:
+          type: integer
+
+    Player:
+      type: object
+      properties:
+        playerId:
+          type: integer
+        playerName:
+          type: string
+
+    GetPlayersResponse:
+      type: object
+      properties:
+        gameId:
+          type: integer
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+
+    GetPoleRequest:
+      type: object
+      required: [gameId]
+      properties:
+        gameId:
+          type: integer
+
+    SendPoleRequest:
+      type: object
+      required: [gameId, hod_player, economic, listPlayer, pole]
+      properties:
+        gameId:
+          type: integer
+        hod_player:
+          type: integer
+        economic:
+          type: object
+          additionalProperties: true
+        listPlayer:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pole:
+          type: object
+          additionalProperties: true
+
+    GetPoleResponse:
+      type: object
+      properties:
+        gameId:
+          type: integer
+        hod_player:
+          type: integer
+        economic:
+          type: object
+          additionalProperties: true
+        listPlayer:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pole:
+          type: object
+          additionalProperties: true
+
+    GameOverRequest:
+      type: object
+      required: [gameId]
+      properties:
+        gameId:
+          type: integer
