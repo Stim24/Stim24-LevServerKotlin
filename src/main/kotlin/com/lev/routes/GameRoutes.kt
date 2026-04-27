@@ -33,15 +33,24 @@ fun io.ktor.server.application.Application.gameRoutes() {
     routing {
         route("v1/game") {
 
+            post ("addMass"){
+                //val req = call.receive<Int>()
+                GameRepository.addMass("11")
+                call.respond("В список mass добавлен 1 элемент")
+            }
+            get("getMass"){
+                val mass = GameRepository.getMass()
+                call.respond(mass)
+            }
+
             post("myClass") {
                 val req = call.receive<Myclass>()
                 val result = Result(req.a1 + req.b1)
                 call.respond(result)
             }
-
             post ("multiplicationNumbers"){
                 val req = call.receive<MultiplicationRequest>()
-                val multiplication = MultiplicationResponse(req.a*req.b)
+                val multiplication = MultiplicationResponse((req.a/req.b*req.c+req.d).toDouble())
                 call.respond(multiplication)
             }
 

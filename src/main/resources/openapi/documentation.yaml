@@ -31,14 +31,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MyClassRequest'
+              $ref: '#/components/schemas/Myclass'
       responses:
         '200':
           description: Успешно
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MyClassResponse'
+                $ref: '#/components/schemas/Result'
 
   /v1/game/newgame:
     post:
@@ -201,12 +201,12 @@ components:
           type: integer
           description: Second number
 
-      Result:
-        type: object
-        properties:
-          sum:
-            type: integer
-            description: Sum of a1 and b1
+    Result:
+      type: object
+      properties:
+        sum:
+          type: integer
+          description: Sum of a1 and b1
 
     NewGameRequest:
       type: object
@@ -228,12 +228,12 @@ components:
           type: integer
           description: Второе число
 
-      MultiplicationResponse:
-        type: object
-        properties:
-          result:
-            type: integer
-            description: Результат умножения a и b
+    MultiplicationResponse:
+      type: object
+      properties:
+        result:
+          type: integer
+          description: Результат умножения a и b
 
     NewGameResponse:
       type: object

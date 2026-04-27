@@ -21,11 +21,22 @@ data class Result(
     val sum: Int
 )
 
+@Serializable
+data class AddMassRequest(
+    val value: String
+)
+
+@Serializable
+data class AddMassResponse(
+    val message: String,
+    val mass: List<String>
+)
+
 // мой тестовый класс умножения
 @Serializable
-data class MultiplicationRequest(val a: Int, val b: Int)
+data class MultiplicationRequest(val a: Double, val b: Double, val c: Double = 1.0, val d: Double = 0.0)
 @Serializable
-data class MultiplicationResponse(val result: Int)
+data class MultiplicationResponse(val result: Double)
 // newgame
 @Serializable
 data class NewGameRequest(val playerId: Int, val playerName: String)

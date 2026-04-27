@@ -13,6 +13,17 @@ object GameRepository {
     private val games = mutableMapOf<Int, Game>()
     private val nextGameId = AtomicInteger(1)
 
+    private var mass = arrayListOf<String>()
+
+    fun addMass(req: String) {
+        mass.add(req)
+        //return mass
+    }
+    fun getMass(): ArrayList<String>{
+        return mass
+    }
+
+
     fun getAllGames(): List<Game> = games.values.filter { it.status == GameStatus.NEW }.toList()
 
     fun getGame(gameId: Int): Game? = games[gameId]
