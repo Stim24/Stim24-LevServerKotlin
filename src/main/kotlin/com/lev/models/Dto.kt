@@ -10,6 +10,22 @@ data class GameListItem(val gameId: Int, val date: Long)
 @Serializable
 data class GetGamesResponse(val games: List<GameListItem>)
 
+@Serializable
+data class Myclass(
+    val a1: Int,
+    val b1: Int
+)
+
+@Serializable
+data class Result(
+    val sum: Int
+)
+
+// мой тестовый класс умножения
+@Serializable
+data class MultiplicationRequest(val a: Int, val b: Int)
+@Serializable
+data class MultiplicationResponse(val result: Int)
 // newgame
 @Serializable
 data class NewGameRequest(val playerId: Int, val playerName: String)

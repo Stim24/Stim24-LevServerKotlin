@@ -22,6 +22,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetGamesResponse'
 
+  /v1/game/myClass:
+    post:
+      summary: Сумма двух чисел
+      operationId: myClass
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyClassRequest'
+      responses:
+        '200':
+          description: Успешно
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyClassResponse'
+
   /v1/game/newgame:
     post:
       summary: Создать игру
@@ -39,6 +57,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NewGameResponse'
+
+  /v1/game/multiplicationNumbers:
+    post:
+      summary: Умножение двух чисел
+      operationId: multiplicationNumbers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiplicationRequest'
+      responses:
+        '200':
+          description: Успешно
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiplicationResponse'
 
   /v1/game/addPlayer:
     post:
@@ -152,6 +188,26 @@ components:
           items:
             $ref: '#/components/schemas/GameListItem'
 
+    Myclass:
+      type: object
+      required:
+        - a1
+        - b1
+      properties:
+        a1:
+          type: integer
+          description: First number
+        b1:
+          type: integer
+          description: Second number
+
+      Result:
+        type: object
+        properties:
+          sum:
+            type: integer
+            description: Sum of a1 and b1
+
     NewGameRequest:
       type: object
       required: [playerId, playerName]
@@ -160,6 +216,24 @@ components:
           type: integer
         playerName:
           type: string
+
+    MultiplicationRequest:
+      type: object
+      required: [ a, b ]
+      properties:
+        a:
+          type: integer
+          description: Первое число
+        b:
+          type: integer
+          description: Второе число
+
+      MultiplicationResponse:
+        type: object
+        properties:
+          result:
+            type: integer
+            description: Результат умножения a и b
 
     NewGameResponse:
       type: object

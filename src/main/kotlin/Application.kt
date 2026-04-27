@@ -1,13 +1,16 @@
-import com.lev.routes.gameRoutes
-import io.ktor.http.HttpHeaders
-import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.server.plugins.cors.CORS
-import io.ktor.server.plugins.swagger.swaggerUI
-import io.ktor.server.routing.routing
+package com.lev
+
+import io.ktor.server.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.plugins.cors.routing.*
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
+import io.ktor.server.plugins.swagger.swaggerUI  // ✅ Только swaggerUI
+import io.ktor.server.routing.routing
+import com.lev.routes.gameRoutes
 
 fun main() {
     embeddedServer(Netty, port = 8080) {
@@ -22,9 +25,12 @@ fun main() {
                 isLenient = true
             })
         }
+
         routing {
+            // Статический Swagger - читает файл документации
             swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
         }
+
         gameRoutes()
     }.start(wait = true)
 }

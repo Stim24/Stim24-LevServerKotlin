@@ -11,24 +11,26 @@ repositories {
     mavenCentral()
 }
 
+val ktor_version = "3.0.1"
+
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:2.3.12")
-    implementation("io.ktor:ktor-server-netty-jvm:2.3.12")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.3.12")
-    implementation("io.ktor:ktor-server-cors-jvm:2.3.12")
-    implementation("io.ktor:ktor-server-swagger-jvm:2.3.12")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.3.12")
+    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-cors-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-swagger:$ktor_version")  // ✅ Только swagger, без openapi
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
 
 application {
-    mainClass.set("ApplicationKt")
+    mainClass.set("com.lev.ApplicationKt")
 }
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "ApplicationKt"
+        attributes["Main-Class"] = "com.lev.ApplicationKt"
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })

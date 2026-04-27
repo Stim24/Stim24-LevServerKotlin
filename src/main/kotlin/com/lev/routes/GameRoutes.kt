@@ -9,8 +9,12 @@ import com.lev.models.GetPlayersResponse
 import com.lev.models.GetPoleRequest
 import com.lev.models.GetPoleResponse
 import com.lev.models.GameOverRequest
+import com.lev.models.MultiplicationRequest
+import com.lev.models.MultiplicationResponse
+import com.lev.models.Myclass
 import com.lev.models.NewGameRequest
 import com.lev.models.NewGameResponse
+import com.lev.models.Result
 import com.lev.models.SendPoleRequest
 import com.lev.repository.GameRepository
 import io.ktor.server.application.call
@@ -28,6 +32,19 @@ import kotlinx.serialization.json.jsonObject
 fun io.ktor.server.application.Application.gameRoutes() {
     routing {
         route("v1/game") {
+
+            post("myClass") {
+                val req = call.receive<Myclass>()
+                val result = Result(req.a1 + req.b1)
+                call.respond(result)
+            }
+
+            post ("multiplicationNumbers"){
+                val req = call.receive<MultiplicationRequest>()
+                val multiplication = MultiplicationResponse(req.a*req.b)
+                call.respond(multiplication)
+            }
+
             get("getGames") {
                 val games = GameRepository.getAllGames().map { g ->
                     GameListItem(gameId = g.gameId, date = g.createdAt)

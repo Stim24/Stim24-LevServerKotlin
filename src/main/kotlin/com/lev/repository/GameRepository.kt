@@ -4,6 +4,7 @@ import com.lev.models.Game
 import com.lev.models.GameStatus
 import com.lev.models.Player
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive  // ← ДОБАВЬТЕ ЭТОТ ИМПОРТ
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import java.util.concurrent.atomic.AtomicInteger
@@ -38,7 +39,7 @@ object GameRepository {
     fun setPoleData(gameId: Int, hodPlayer: Int, economic: JsonObject, listPlayer: List<JsonObject>, pole: JsonObject): Boolean {
         val game = games[gameId] ?: return false
         game.poleData = buildJsonObject {
-            put("hod_player", hodPlayer)
+            put("hod_player", JsonPrimitive(hodPlayer))  // ← ИСПРАВЛЕНО: обернули в JsonPrimitive
             put("economic", economic)
             put("listPlayer", buildJsonArray { listPlayer.forEach { add(it) } })
             put("pole", pole)
